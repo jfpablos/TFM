@@ -1,12 +1,6 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Apr  1 12:11:19 2019
-
-@author: 46856585
-"""
 import boto3
 import csv
-import requests
+from botocore.vendored import requests
 from datetime import datetime
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -28,11 +22,15 @@ url = {
 
 def lambda_handler(event, context):
     
-    with open('prueba.csv', 'a') as csv_file:
+    s3 = boto3.resource('s3')
+    s3.meta.client.download_file('webscraping-buscadores', 'scrapBuscadores.csv', 'scrapBuscadores.csv')
+    with open('scrapBuscadores.csv', 'a') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow([datetime.now(), google(), bing(), yahoo(), duck(), qwant()])
+        
+    s3.meta.client.upload_file('scrapBuscadores.csv', 'webscraping-buscadores', 'scrapBuscadores.csv')
 
-    pass
+    
 
 def google():
   try:
