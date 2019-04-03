@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  lambda:
+    build: .
+    environment:
+      - PYTHONPATH=/var/task/src:/var/task/lib
+      - PATH=/var/task/bin
+      - AWS_BUCKET_NAME='webscraping-buscadores'
+      - AWS_ACCESS_KEY_ID='AKIAZCLPTANKJMCOFUVN'
+      - AWS_SECRET_ACCESS_KEY='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'
+    volumes:
+      - ./src/:/var/task/src/
